@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 
 // MongoDB connection
 mongoose
-  .connect('mongodb+srv://ecommerce:jBo0vPf1mHqNkzva@cluster0.x5cjs.mongodb.net/test')
+  .connect('mongodb+srv://ecommerce:qXLDA5kzFtdI4WDp@ecommerce.gr3e9.mongodb.net/?retryWrites=true&w=majority&appName=ecommerce')
   .then(() => console.log("MongoDB connected"))
   .catch((error) => {
     console.log("MongoDB connection failed:", error);

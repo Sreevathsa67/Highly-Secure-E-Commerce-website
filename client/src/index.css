@@ -1,4 +1,5 @@
 /* Ensure html and body take the full height of the screen */
+
 html,
 body {
   height: 100%;

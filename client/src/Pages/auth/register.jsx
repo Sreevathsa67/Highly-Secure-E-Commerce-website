@@ -11,7 +11,7 @@ const initialRegisterState = {
   userName: "",
   email: "",
   password: "",
-};0
+};
 
 const initialOtpState = {
   email: "",
@@ -31,19 +31,22 @@ function AuthRegister() {
     event.preventDefault();
 
     // Validate username
-    if (!/^[A-Z][a-zA-Z0-9]{7,}$/.test(formData.userName)) {
+    if (!/^[A-Z][a-zA-Z0-9 ]{7,}$/.test(formData.userName)) {
       toast({
-        title: "Username must start with a capital letter and be at least 8 characters long.",
+        title:
+          "Username must start with a capital letter, be at least 8 characters long, and can include spaces.",
         variant: "destructive",
       });
       return;
     }
 
     // Validate password
-    const passwordValidationPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const passwordValidationPattern =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordValidationPattern.test(formData.password)) {
       toast({
-        title: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+        title:
+          "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
         variant: "destructive",
       });
       return;

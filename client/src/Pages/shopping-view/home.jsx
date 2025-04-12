@@ -30,8 +30,12 @@ import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { getFeatureImages } from "@/store/common-slice";
 
-
-
+import nike from "../../assets/nike.jpg";
+import addidas from "../../assets/adiidas.png";
+import levis from "../../assets/levis.jpg";
+import hnm from "../../assets/hnm.png";
+import puma from "../../assets/puma.png";
+import zara from "../../assets/zara.jpg";
 // Banner images
 const banners = [bannerOne, bannerTwo, bannerThree];
 
@@ -44,12 +48,12 @@ const categoriesWithIcon = [
 ];
 
 const brandsWithIcon = [
-  { id: "nike", label: "Nike", icon: ShirtIcon },
-  { id: "adidas", label: "Adidas", icon: WashingMachine },
-  { id: "puma", label: "Puma", icon: ShoppingBasket },
-  { id: "levi", label: "Levi's", icon: Airplay },
-  { id: "zara", label: "Zara", icon: Images },
-  { id: "h&m", label: "H&M", icon: Heater },
+  { id: "nike", label: "Nike", image: nike },
+  { id: "adidas", label: "Adidas", image: addidas },
+  { id: "puma", label: "Puma", image: puma },
+  { id: "levi", label: "Levi's", image: levis },
+  { id: "zara", label: "Zara", image: zara },
+  { id: "h&m", label: "H&M", image: hnm },
 ];
 
 function ShoppingHome() {
@@ -159,9 +163,9 @@ function ShoppingHome() {
       </div>
 
       {/* Shop by Category Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-[#F37199]">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#F5F5F5] font-sans">
             Shop by category
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -173,7 +177,7 @@ function ShoppingHome() {
                 }
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
+                <CardContent className="flex flex-col items-center justify-center p-6 ">
                   <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
                   <span className="font-bold">{categoryItem.label}</span>
                 </CardContent>
@@ -184,9 +188,9 @@ function ShoppingHome() {
       </section>
 
       {/* Shop by Brand Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-blush">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
+          <h2 className="text-3xl font-bold text-center mb-8 text-gray-500 font-sans">Shop by Brand</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {brandsWithIcon.map((brandItem) => (
               <Card
@@ -194,8 +198,9 @@ function ShoppingHome() {
                 onClick={() => handleNavigateToListingPage(brandItem, "brand")}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
+                <CardContent className="flex flex-col items-center justify-center p-7 ">
+                  <img src={brandItem.image} alt={brandItem.label} className="w-26 h-24 mb-4" />
+
                   <span className="font-bold">{brandItem.label}</span>
                 </CardContent>
               </Card>
@@ -207,7 +212,7 @@ function ShoppingHome() {
       {/* Feature Products Section */}
       <section className="py-12">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
+          <h2 className="text-3xl font-bold text-center mb-8 text-gray-500">
             Feature Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

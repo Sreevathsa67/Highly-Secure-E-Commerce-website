@@ -13,7 +13,7 @@ import ShoppingHome from "./pages/shopping-view/home";
 import ShoppingListing from "./pages/shopping-view/listing";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingAccount from "./pages/shopping-view/account";
-import CheckAuth from "./components/common/checkauth";
+import CheckAuth from "./components/common/checkauth";  // Import the updated CheckAuth
 import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -25,9 +25,7 @@ import SearchProducts from "./pages/shopping-view/search";
 import OtpVerification from "./pages/auth/OtpVerification";
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,10 +40,9 @@ function App() {
         <Route
           path="/"
           element={
-            <CheckAuth
-              isAuthenticated={isAuthenticated}
-              user={user}
-            ></CheckAuth>
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              {/* Add the components to render only when OTP is verified */}
+            </CheckAuth>
           }
         />
         <Route

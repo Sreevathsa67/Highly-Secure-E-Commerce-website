@@ -55,7 +55,7 @@ function OtpVerification() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-black hover:bg-gray-800 text-white font-medium py-2 px-4 rounded"
+                        className="w-full bg-white text-black border border-gray-300 p-2 rounded focus:ring-blue-500 focus:border-blue-500"
                     >
                         Verify OTP
                     </button>

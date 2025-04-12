@@ -3,10 +3,12 @@ import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react"; // Import eye icons
 
 const AuthLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const dispatch = useDispatch();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -72,21 +74,28 @@ const AuthLogin = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full border-gray-300 focus:ring-black focus:border-black block p-2 mt-1 rounded-md"
+                className="w-full bg-white text-black border border-gray-300 p-2 rounded focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"} // Toggle password visibility
                 placeholder="Password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full border-gray-300 focus:ring-black focus:border-black block p-2 mt-1 rounded-md"
+                className="w-full bg-white text-black border border-gray-300 p-2 rounded focus:ring-blue-500 focus:border-blue-500"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
             <button
               className="w-full bg-black hover:bg-gray-800 text-white font-medium py-2 px-4 rounded"
