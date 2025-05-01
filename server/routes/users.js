@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, validate } = require("../models/user");
+const { User, validate } = require("../models/User");
 const Token = require("../models/token");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");

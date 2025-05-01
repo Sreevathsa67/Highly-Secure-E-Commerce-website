@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Initial state
+
 const initialState = {
   isLoading: false,
   reviews: [],
-  error: null, // To store error messages
+  error: null, 
 };
 
-// Add a review
+
 export const addReview = createAsyncThunk(
   "/order/addReview",
   async (formdata, { rejectWithValue }) => {
@@ -17,9 +17,9 @@ export const addReview = createAsyncThunk(
         `http://localhost:5000/api/shop/review/add`,
         formdata
       );
-      return response.data; // On success, return the data
+      return response.data; 
     } catch (error) {
-      // Handle errors if the request fails
+      
       return rejectWithValue(
         error.response?.data || error.message || "Error adding review"
       );
@@ -27,7 +27,7 @@ export const addReview = createAsyncThunk(
   }
 );
 
-// Get reviews for a product
+
 export const getReviews = createAsyncThunk(
   "/order/getReviews",
   async (id, { rejectWithValue }) => {
@@ -35,9 +35,8 @@ export const getReviews = createAsyncThunk(
       const response = await axios.get(
         `http://localhost:5000/api/shop/review/${id}`
       );
-      return response.data; // On success, return the data
+      return response.data; 
     } catch (error) {
-      // Handle errors if the reviews can't be fetched
       return rejectWithValue(
         error.response?.data || error.message || "Error fetching reviews"
       );
@@ -51,34 +50,34 @@ const reviewSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get reviews
+      
       .addCase(getReviews.pending, (state) => {
         state.isLoading = true;
-        state.error = null; // Reset error on new request
+        state.error = null; 
       })
       .addCase(getReviews.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.reviews = action.payload.data; // Assign fetched reviews
+        state.reviews = action.payload.data; 
       })
       .addCase(getReviews.rejected, (state, action) => {
         state.isLoading = false;
         state.reviews = [];
-        state.error = action.payload || "Error fetching reviews"; // Assign error
+        state.error = action.payload || "Error fetching reviews"; 
       })
-      // Add review
+      
       .addCase(addReview.pending, (state) => {
         state.isLoading = true;
-        state.error = null; // Reset error on new request
+        state.error = null; 
       })
       .addCase(addReview.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Optionally, you can append the new review to the reviews array
+        
         state.reviews.push(action.payload.data);
-        state.error = null; // Reset error on success
+        state.error = null; 
       })
       .addCase(addReview.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload || "Error adding review"; // Handle error
+        state.error = action.payload || "Error adding review"; 
       });
   },
 });

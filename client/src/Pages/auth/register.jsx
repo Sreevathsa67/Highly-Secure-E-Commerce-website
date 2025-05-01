@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-// Initial states for forms
+
 const initialRegisterState = {
   userName: "",
   email: "",
@@ -26,11 +26,11 @@ function AuthRegister() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Handle registration form submission
+  
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
 
-    // Validate username
+    
     if (!/^[A-Z][a-zA-Z0-9 ]{7,}$/.test(formData.userName)) {
       toast({
         title:
@@ -40,7 +40,7 @@ function AuthRegister() {
       return;
     }
 
-    // Validate password
+    
     const passwordValidationPattern =
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordValidationPattern.test(formData.password)) {
@@ -66,7 +66,7 @@ function AuthRegister() {
     }
   };
 
-  // Handle OTP form submission
+ 
   const handleOtpSubmit = async (event) => {
     event.preventDefault();
     const result = await dispatch(verifyOtp(otpData));
@@ -101,7 +101,7 @@ function AuthRegister() {
         )}
       </div>
 
-      {/* Conditionally render the appropriate form */}
+      {}
       {isOtpSent ? (
         <CommonForm
           formControls={otpFormControls}

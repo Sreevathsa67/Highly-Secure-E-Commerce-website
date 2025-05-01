@@ -109,7 +109,7 @@ function AdminProducts() {
         {productList && productList.length > 0
           ? productList.map((productItem) => (
             <AdminProductTile
-              key={productItem.id} // Unique key prop added here
+              key={productItem.id} 
               setFormData={setFormData}
               setOpenCreateProductsDialog={setOpenCreateProductsDialog}
               setCurrentEditedId={setCurrentEditedId}

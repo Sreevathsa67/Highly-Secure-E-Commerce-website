@@ -55,12 +55,12 @@ const OrderSchema = new mongoose.Schema(
       pincode: {
         type: String,
         required: true,
-        match: /^[0-9]{6}$/, // Example: Validates Indian PIN codes
+        match: /^[0-9]{6}$/, 
       },
       phone: {
         type: String,
         required: true,
-        match: /^[0-9]{10}$/, // Example: Validates 10-digit phone numbers
+        match: /^[0-9]{10}$/, 
       },
       notes: {
         type: String,
@@ -74,7 +74,7 @@ const OrderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["COD", "CreditCard", "DebitCard", "UPI", "NetBanking", "Wallet", "Paypal"], // Added "Paypal" to the enum
+      enum: ["COD", "CreditCard", "DebitCard", "UPI", "NetBanking", "Wallet", "Paypal","Stripe"], 
       required: true,
     },
     paymentStatus: {
@@ -105,7 +105,7 @@ const OrderSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt timestamps
+    timestamps: true, 
   }
 );
 

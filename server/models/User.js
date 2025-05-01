@@ -17,10 +17,12 @@ const UserSchema = new mongoose.Schema({
 	},
 	role: {
 		type: String,
-		enum: ["user", "admin"], // This limits role to either "user" or "admin"
-		default: "admin",
+		enum: ["user", "admin"], 
+		default: "user",
 	},
 });
+
+
 
 UserSchema.methods.isAdmin = function () {
 	return this.role === "admin";

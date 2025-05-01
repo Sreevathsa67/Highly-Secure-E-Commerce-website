@@ -2,18 +2,18 @@ const Order = require("../../models/Order");
 const Product = require("../../models/Product");
 const ProductReview = require("../../models/Review");
 
-// Add Product Review
+
 const addProductReview = async (req, res) => {
   try {
     const { productId, reviewMessage, reviewValue } = req.body;
-    const userId = req.user.id; // Assuming the user is authenticated and userId is stored in the JWT payload
-    const userName = req.user.name; // Assuming userName is also stored in the JWT payload
+    const userId = req.user.id; 
+    const userName = req.user.name; 
 
-    // Check if the user has purchased the product
+    
     const order = await Order.findOne({
       userId,
       "cartItems.productId": productId,
-      orderStatus: { $in: ["confirmed", "delivered"] }, // Match confirmed or delivered orders
+      orderStatus: { $in: ["confirmed", "delivered"] }, 
     });
 
     if (!order) {
@@ -23,7 +23,7 @@ const addProductReview = async (req, res) => {
       });
     }
 
-    // Check if the user has already reviewed this product
+    
     const existingReview = await ProductReview.findOne({
       productId,
       userId,
@@ -36,7 +36,6 @@ const addProductReview = async (req, res) => {
       });
     }
 
-    // Create a new review
     const newReview = new ProductReview({
       productId,
       userId,
@@ -47,14 +46,14 @@ const addProductReview = async (req, res) => {
 
     await newReview.save();
 
-    // Calculate the new average review for the product
+    
     const reviews = await ProductReview.find({ productId });
     const totalReviewsLength = reviews.length;
     const averageReview =
       reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
       totalReviewsLength;
 
-    // Update the average review for the product
+   
     await Product.findByIdAndUpdate(productId, { averageReview });
 
     res.status(201).json({
@@ -70,13 +69,12 @@ const addProductReview = async (req, res) => {
     });
   }
 };
-
-// Get Product Reviews
+  
 const getProductReviews = async (req, res) => {
   try {
     const { productId } = req.params;
 
-    // Fetch all reviews for the product
+    
     const reviews = await ProductReview.find({ productId });
 
     res.status(200).json({

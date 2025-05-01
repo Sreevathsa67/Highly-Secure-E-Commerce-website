@@ -1,6 +1,5 @@
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { fetchProductDetails } from "@/store/shop/products-slice";
@@ -13,10 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 function SearchProducts() {
-  const [keyword, setKeyword] = useState("");
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [isListening, setIsListening] = useState(false); // Voice recognition state
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { searchResults } = useSelector((state) => state.shopSearch);
   const { productDetails } = useSelector((state) => state.shopProducts);
@@ -24,64 +21,8 @@ function SearchProducts() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { toast } = useToast();
 
-  // Handle voice recognition setup
-  const recognition =
-    "webkitSpeechRecognition" in window
-      ? new webkitSpeechRecognition()
-      : null;
-
-  useEffect(() => {
-    if (keyword && keyword.trim() !== "" && keyword.trim().length > 3) {
-      setTimeout(() => {
-        setSearchParams(new URLSearchParams(`?keyword=${keyword}`));
-        dispatch(getSearchResults(keyword));
-      }, 1000);
-    } else {
-      setSearchParams(new URLSearchParams(`?keyword=${keyword}`));
-      dispatch(resetSearchResults());
-    }
-  }, [keyword]);
-
-  // Start/Stop voice recognition
-  const toggleVoiceRecognition = () => {
-    if (!recognition) {
-      toast({
-        title: "Voice recognition not supported in this browser.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (isListening) {
-      recognition.stop();
-      setIsListening(false);
-    } else {
-      recognition.lang = "en-US";
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.start();
-      setIsListening(true);
-
-      recognition.onresult = (event) => {
-        const spokenText = event.results[0][0].transcript;
-        setKeyword(spokenText);
-        setIsListening(false);
-      };
-
-      recognition.onerror = () => {
-        setIsListening(false);
-        toast({
-          title: "Voice recognition error. Please try again.",
-          variant: "destructive",
-        });
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-    }
-  };
+  
+  const keyword = searchParams.get("keyword") || "";
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
     let getCartItems = cartItems.items || [];
@@ -126,39 +67,62 @@ function SearchProducts() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
+  
+  useEffect(() => {
+    if (keyword && keyword.trim() !== "" && keyword.trim().length > 3) {
+      dispatch(getSearchResults(keyword));
+    } else {
+      dispatch(resetSearchResults());
+    }
+  }, [keyword, dispatch]);
+
   return (
     <div className="container mx-auto md:px-6 px-4 py-8">
-      <div className="flex justify-center mb-8">
-        <div className="w-full flex items-center space-x-4">
-          <Input
-            value={keyword}
-            name="keyword"
-            onChange={(event) => setKeyword(event.target.value)}
-            className="py-6"
-            placeholder="Search Products..."
-          />
-          <button
-            onClick={toggleVoiceRecognition}
-            className={`px-4 py-2 rounded-md text-white ${isListening ? "bg-red-500" : "bg-blue-500"
-              }`}
-          >
-            {isListening ? "Listening..." : "Voice Search"}
-          </button>
-        </div>
+      {}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Search Results</h1>
+        {keyword ? (
+          <p className="text-gray-600">Showing results for "{keyword}"</p>
+        ) : (
+          <p className="text-gray-600">Enter a search term to find products</p>
+        )}
       </div>
+      
+      {}
       {!searchResults.length ? (
-        <h1 className="text-5xl font-extrabold">No result found!</h1>
-      ) : null}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {searchResults.map((item) => (
-          <ShoppingProductTile
-            key={item.id}
-            handleAddtoCart={handleAddtoCart}
-            product={item}
-            handleGetProductDetails={handleGetProductDetails}
-          />
-        ))}
-      </div>
+        <div className="text-center py-16">
+          <h2 className="text-4xl font-bold mb-4">No result found!</h2>
+          <p className="text-lg text-gray-600 mb-6">
+            {keyword
+              ? `We couldn't find any products matching "${keyword}"`
+              : "Please enter a search term to find products"}
+          </p>
+          {keyword && (
+            <div className="max-w-md mx-auto">
+              <h3 className="font-medium text-lg mb-2">Suggestions:</h3>
+              <ul className="text-left list-disc pl-5 text-gray-600">
+                <li>Make sure all words are spelled correctly</li>
+                <li>Try different keywords</li>
+                <li>Try more general keywords</li>
+                <li>Try fewer keywords</li>
+              </ul>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {searchResults.map((item) => (
+            <ShoppingProductTile
+              key={item.id}
+              handleAddtoCart={handleAddtoCart}
+              product={item}
+              handleGetProductDetails={handleGetProductDetails}
+            />
+          ))}
+        </div>
+      )}
+      
+      {}
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}

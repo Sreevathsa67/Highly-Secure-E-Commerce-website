@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Initial state
+
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
   user: null,
   error: null,
-  message: null, // Added message field for success messages
+  message: null, 
 };
 
-// Thunks for authentication actions
+
 
 export const registerUser = createAsyncThunk(
   "/auth/register",
@@ -96,7 +96,7 @@ export const checkAuth = createAsyncThunk(
   }
 );
 
-// Forgot Password - Send Reset Link
+
 export const sendResetLink = createAsyncThunk(
   "/auth/forgot-password",
   async (email, { rejectWithValue }) => {
@@ -113,7 +113,7 @@ export const sendResetLink = createAsyncThunk(
   }
 );
 
-// Reset Password
+
 export const resetPassword = createAsyncThunk(
   "/auth/reset-password",
   async ({ token, newPassword }, { rejectWithValue }) => {
@@ -130,7 +130,7 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-// Slice for auth
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -142,7 +142,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Register user
+      
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -157,7 +157,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Login user
+      
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -174,7 +174,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Check authentication
+      
       .addCase(checkAuth.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -191,7 +191,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Logout user
+    
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.isAuthenticated = false;
@@ -203,7 +203,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Forgot Password - Send Reset Link
+      
       .addCase(sendResetLink.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -218,7 +218,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Reset Password
+     
       .addCase(resetPassword.pending, (state) => {
         state.isLoading = true;
         state.error = null;

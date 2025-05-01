@@ -13,7 +13,7 @@ import ShoppingHome from "./pages/shopping-view/home";
 import ShoppingListing from "./pages/shopping-view/listing";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingAccount from "./pages/shopping-view/account";
-import CheckAuth from "./components/common/checkauth";  // Import the updated CheckAuth
+import CheckAuth from "./components/common/checkauth";  
 import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -23,6 +23,8 @@ import PaypalReturnPage from "./pages/shopping-view/paypal-return";
 import PaymentSuccessPage from "./pages/shopping-view/payment-success";
 import SearchProducts from "./pages/shopping-view/search";
 import OtpVerification from "./pages/auth/OtpVerification";
+import StripeSuccess from "./pages/shopping-view/StripeSuccess";
+
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -41,7 +43,7 @@ function App() {
           path="/"
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              {/* Add the components to render only when OTP is verified */}
+              {}
             </CheckAuth>
           }
         />
@@ -78,6 +80,7 @@ function App() {
             </CheckAuth>
           }
         >
+         
           <Route path="home" element={<ShoppingHome />} />
           <Route path="listing" element={<ShoppingListing />} />
           <Route path="checkout" element={<ShoppingCheckout />} />
@@ -87,6 +90,8 @@ function App() {
           <Route path="search" element={<SearchProducts />} />
         </Route>
         <Route path="/unauth-page" element={<UnauthPage />} />
+        <Route path="/stripe-success" element={<StripeSuccess />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

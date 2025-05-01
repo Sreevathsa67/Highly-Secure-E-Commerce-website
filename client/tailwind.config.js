@@ -1,13 +1,14 @@
+import animate from "tailwindcss-animate";
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: ["class"],
 	content: [
-		"./src/**/*.{html,js,jsx,ts,tsx}", // Include all HTML, JS, and TS files in the src folder
-		"./public/main.jsx" // Include any specific HTML files
+		"./src/**/*.{html,js,jsx,ts,tsx}",
+		"./public/main.jsx"
 	],
 	theme: {
 		extend: {
-
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
@@ -16,12 +17,12 @@ export default {
 			colors: {
 				blush: "#FADADD",
 				softwhite: "#F8F8F8",
-				softWhite: "#F8F8F8", // Background color for most sections
-				darkGrey: "#333333", // Text & icons
-				darkOrange: "#D35400", // Sale tags, active links, footer background
-				lightOrange: "#E67E22", // Hover effects, borders
-				black: "#000000", // CTA button background
-				white: "#FFFFFF", // General text color
+				softWhite: "#F8F8F8",
+				darkGrey: "#333333",
+				darkOrange: "#D35400",
+				lightOrange: "#E67E22",
+				black: "#000000",
+				white: "#FFFFFF",
 				mutedgray: "#7F8C8D",
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
@@ -66,6 +67,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [animate],
 }
-

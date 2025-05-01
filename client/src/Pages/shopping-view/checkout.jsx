@@ -17,7 +17,7 @@ function ShoppingCheckout() {
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-  // Helper function to calculate total amount
+  
   const calculateTotalAmount = () => {
     if (!cartItems || !cartItems.items || cartItems.items.length === 0) {
       return 0;
@@ -32,7 +32,6 @@ function ShoppingCheckout() {
 
   const totalAmount = calculateTotalAmount();
 
-  // Function to handle PayPal checkout
   const handlePayPalCheckout = () => {
     if (!cartItems || cartItems.items.length === 0) {
       toast({
@@ -50,7 +49,6 @@ function ShoppingCheckout() {
       return;
     }
 
-    // Check if the pincode is valid (6 digits)
     if (!/^\d{6}$/.test(selectedAddress?.pincode)) {
       toast({
         title: "Invalid pincode. Please ensure it has 6 digits.",
@@ -77,9 +75,9 @@ function ShoppingCheckout() {
         phone: selectedAddress?.phone,
         notes: selectedAddress?.notes,
       },
-      orderStatus: "Pending", // Capitalized to match enum
-      paymentMethod: "Paypal", // Added to match or extend enum in schema
-      paymentStatus: "Pending", // Capitalized to match enum
+      orderStatus: "Pending", 
+      paymentMethod: "Paypal", 
+      paymentStatus: "Pending", 
       totalAmount,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
@@ -108,7 +106,7 @@ function ShoppingCheckout() {
     });
   };
 
-  // Redirect to PayPal approval URL
+  
   if (approvalURL) {
     window.location.href = approvalURL;
   }
@@ -139,7 +137,7 @@ function ShoppingCheckout() {
             <p>Your cart is empty.</p>
           )}
 
-          {/* Total Amount */}
+          {}
           <div className="mt-8 space-y-4">
             <div className="flex justify-between">
               <span className="font-bold">Total</span>
@@ -147,13 +145,102 @@ function ShoppingCheckout() {
             </div>
           </div>
 
-          {/* Checkout Button */}
+          {}
           <div className="mt-4 w-full">
-            <Button onClick={handlePayPalCheckout} className="w-full">
+            <Button onClick={handlePayPalCheckout} className="w-full gap-2">
               {isProcessingPayment
                 ? "Processing Payment..."
-                : "Checkout with PayPal"}
+                : "Checkout with "}
+                 <img src="/p.png" alt="PayPal" className="h-12" />
             </Button>
+         <p> <br></br>
+         </p>
+         
+            <Button
+  onClick={async () => {
+    if (!cartItems || cartItems.items.length === 0) {
+      toast({
+        title: "Your cart is empty. Please add items to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!selectedAddress) {
+      toast({
+        title: "Please select an address to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const orderDetails = {
+      userId: user?.id,
+      cartId: cartItems?._id || null,
+      cartItems: cartItems.items.map((item) => ({
+        productId: item.productId,
+        title: item.title,
+        image: item.image,
+        price: item.salePrice > 0 ? item.salePrice : item.price,
+        quantity: item.quantity,
+      })),
+      addressInfo: {
+        addressId: selectedAddress?._id,
+        address: selectedAddress?.address,
+        city: selectedAddress?.city,
+        pincode: selectedAddress?.pincode,
+        phone: selectedAddress?.phone,
+        notes: selectedAddress?.notes,
+      },
+      orderStatus: "Pending",
+      paymentMethod: "Stripe",
+      paymentStatus: "Pending",
+      totalAmount,
+      orderDate: new Date(),
+      orderUpdateDate: new Date(),
+      paymentId: "", 
+      payerId: "",
+    };
+
+    
+    const orderRes = await fetch("http://localhost:5000/api/shop/order/stripe-init-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderDetails),
+    });
+
+    const savedOrder = await orderRes.json();
+
+    if (!savedOrder.success || !savedOrder.orderId) {
+      toast({ title: "Failed to create order before Stripe", variant: "destructive" });
+      return;
+    }
+
+    
+    const res = await fetch("http://localhost:5000/api/shop/stripe/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: savedOrder.orderId,
+        cartItems: cartItems.items,
+      }),
+    });
+
+    const data = await res.json();
+    if (data?.url) {
+      window.location.href = data.url;
+    } else {
+      toast({ title: "Stripe session creation failed", variant: "destructive" });
+    }
+  }}
+   className="w-full gap-2"
+>
+
+
+  Checkout with  <img src="/s.png" alt="PayPal" className="h-6" />
+</Button>
+
+
           </div>
         </div>
       </div>

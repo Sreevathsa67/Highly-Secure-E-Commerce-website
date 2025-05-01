@@ -1,20 +1,19 @@
 const Cart = require("../../models/Cart");
 const Product = require("../../models/Product");
 
-// Add a product to the cart
+
 const addToCart = async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
 
-    // Validate input
+  
     if (!userId || !productId || quantity <= 0) {
       return res.status(400).json({
         success: false,
         message: "Invalid data provided!",
       });
-    }
-
-    // Check if product exists
+    } 
+      
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({
@@ -23,29 +22,27 @@ const addToCart = async (req, res) => {
       });
     }
 
-    // Fetch or create cart for the user
+   
     let cart = await Cart.findOne({ userId });
     if (!cart) {
       cart = new Cart({ userId, items: [] });
     }
 
-    // Find if the product already exists in the cart
     const productIndex = cart.items.findIndex(
       (item) => item.productId.toString() === productId
     );
 
     if (productIndex === -1) {
-      // Add new product to the cart
+    
       cart.items.push({ productId, quantity });
     } else {
-      // Update the quantity of the existing product
+      
       cart.items[productIndex].quantity += quantity;
     }
 
-    // Save the cart
     await cart.save();
 
-    // Populate product details for the response
+
     await cart.populate({
       path: "items.productId",
       select: "image title price salePrice",
@@ -76,7 +73,7 @@ const addToCart = async (req, res) => {
   }
 };
 
-// Fetch cart items
+
 const fetchCartItems = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -132,7 +129,7 @@ const fetchCartItems = async (req, res) => {
   }
 };
 
-// Update cart item quantity
+
 const updateCartItemQty = async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
@@ -196,7 +193,7 @@ const updateCartItemQty = async (req, res) => {
   }
 };
 
-// Delete an item from the cart
+
 const deleteCartItem = async (req, res) => {
   try {
     const { userId, productId } = req.params;

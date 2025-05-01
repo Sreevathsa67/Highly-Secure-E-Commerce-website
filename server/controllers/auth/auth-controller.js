@@ -5,28 +5,29 @@ const Otp = require("../../models/Otp");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
-// Setup Nodemailer
+
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Use your email provider
+  service: "gmail", 
   auth: {
-    user: "testecom679@gmail.com", // Replace with your email
-    pass: "mqdx odjl kkvb wekh", // Replace with your email password or app-specific password
+    user: "testecom679@gmail.com", 
+    pass: "mqdx odjl kkvb wekh",
   },
 });
 
-// Send OTP
+
+
 const sendOtp = async (req, res) => {
   const { email } = req.body;
 
   try {
     const otp = crypto.randomInt(100000, 999999).toString();
 
-    // Save OTP to database
+    
     await Otp.create({ email, otp });
 
-    // Send OTP via email
+    
     await transporter.sendMail({
-      from: "your-email@gmail.com", // Sender's email
+      from: "your-email@gmail.com", 
       to: email,
       subject: "Your OTP Code",
       text: `Your OTP code is ${otp}. It will expire in 5 minutes.`,
@@ -39,7 +40,6 @@ const sendOtp = async (req, res) => {
   }
 };
 
-// Verify OTP
 const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -53,10 +53,10 @@ const verifyOtp = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid or expired OTP." });
     }
 
-    // Mark the user as verified in the database
+    
     await User.updateOne({ email }, { $set: { isVerified: true } });
 
-    // Delete OTP after successful verification
+  
     await Otp.deleteOne({ _id: existingOtp._id });
 
     res.status(200).json({ success: true, message: "OTP verified successfully." });
@@ -67,7 +67,7 @@ const verifyOtp = async (req, res) => {
 };
 
 
-//register
+
 const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
 
@@ -100,7 +100,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-//login
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -152,7 +151,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-//logout
+
 
 const logoutUser = (req, res) => {
   res.clearCookie("token").json({
@@ -161,7 +160,7 @@ const logoutUser = (req, res) => {
   });
 };
 
-//auth middleware
+
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
   if (!token)

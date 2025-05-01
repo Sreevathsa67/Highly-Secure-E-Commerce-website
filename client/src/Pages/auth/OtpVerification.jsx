@@ -8,7 +8,7 @@ function OtpVerification() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Get the email from login or route state
+    
     const userEmail = location.state?.email || "default@example.com";
 
     const handleOtpSubmit = async (event) => {
@@ -25,7 +25,7 @@ function OtpVerification() {
 
             if (response.ok && data.success) {
                 toast({ title: "OTP verified successfully!" });
-                navigate("/shop/home"); // Redirect to home page
+                navigate("/shop/home"); 
             } else {
                 toast({ title: data.message || "OTP verification failed.", variant: "destructive" });
             }
@@ -49,7 +49,7 @@ function OtpVerification() {
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             placeholder="Enter OTP"
-                            className="w-full border border-gray-300 p-2 rounded focus:ring-black focus:border-black"
+                            className="w-full bg-white text-black border border-gray-300 p-2 rounded focus:ring-white focus:border-blue "
                             required
                         />
                     </div>

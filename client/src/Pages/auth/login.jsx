@@ -3,17 +3,17 @@ import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react"; // Import eye icons
+import { Eye, EyeOff } from "lucide-react"; 
 
 const AuthLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch();
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Handle login submission
+  
   const handleLogin = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -83,7 +83,7 @@ const AuthLogin = () => {
               </label>
               <input
                 id="password"
-                type={showPassword ? "text" : "password"} // Toggle password visibility
+                type={showPassword ? "text" : "password"} 
                 placeholder="Password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -91,7 +91,7 @@ const AuthLogin = () => {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                onClick={() => setShowPassword(!showPassword)} 
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}

@@ -18,25 +18,25 @@ const CartSchema = new mongoose.Schema(
           type: Number,
           required: true,
           min: 1,
-          default: 1, // Default quantity for a product in the cart
+          default: 1,
         },
         addedAt: {
           type: Date,
-          default: Date.now, // Track when the product was added to the cart
+          default: Date.now, 
         },
       },
     ],
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt timestamps
+    timestamps: true, 
   }
 );
 
-// Pre-save hook to ensure no duplicate products are added
+
 CartSchema.pre("save", async function (next) {
   const cart = this;
   if (cart.isModified("items")) {
-    // Ensure unique product IDs in the cart
+    
     const uniqueItems = [];
     const seenProductIds = new Set();
 

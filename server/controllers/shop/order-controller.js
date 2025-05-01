@@ -199,9 +199,54 @@ const getOrderDetails = async (req, res) => {
   }
 };
 
+stripeSaveOrder = async (req, res) => {
+  const order = new Order({
+    ...req.body,
+    paymentMethod: "Stripe",
+    paymentStatus: "Paid",
+    orderDate: new Date(),
+    orderStatus: "Pending",
+  });
+
+  await order.save();
+  res.json({ success: true });
+};
+
+
+initStripeOrder = async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    return res.status(200).json({ success: true, orderId: order._id });
+  } catch (err) {
+    console.error(" Stripe Init Order Error:", err);
+    return res.status(500).json({ success: false });
+  }
+};
+
+updateStripeOrder = async (req, res) => {
+  try {
+    const { orderId, paymentId, paymentStatus } = req.body;
+
+    await Order.findByIdAndUpdate(orderId, {
+      paymentId,
+      paymentStatus,
+      orderUpdateDate: new Date(),
+    });
+
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(" Stripe Update Order Error:", err);
+    return res.status(500).json({ success: false });
+  }
+};
+
 module.exports = {
   createOrder,
   capturePayment,
   getAllOrdersByUser,
   getOrderDetails,
+  stripeSaveOrder,
+  initStripeOrder,
+  updateStripeOrder,
 };

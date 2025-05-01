@@ -8,11 +8,11 @@ function AdminDashboard() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
-  const [currentEditedId, setCurrentEditedId] = useState(null); // Track the edited item ID
+  const [currentEditedId, setCurrentEditedId] = useState(null); 
   const dispatch = useDispatch();
   const { featureImageList } = useSelector((state) => state.commonFeature);
 
-  // Handle the feature image upload
+
   function handleUploadFeatureImage() {
     if (uploadedImageUrl) {
       dispatch(addFeatureImage(uploadedImageUrl)).then((data) => {
@@ -25,19 +25,18 @@ function AdminDashboard() {
     }
   }
 
-  // Fetch feature images when the component mounts
+ 
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
 
-  // This function handles setting the edited ID when an item is being edited
   function handleEditImage(imageId) {
     setCurrentEditedId(imageId);
   }
 
   return (
     <div>
-      {/* Image upload component */}
+      {}
       <ProductImageUpload
         imageFile={imageFile}
         setImageFile={setImageFile}
@@ -46,7 +45,7 @@ function AdminDashboard() {
         setImageLoadingState={setImageLoadingState}
         imageLoadingState={imageLoadingState}
         isCustomStyling={true}
-        isEditMode={currentEditedId !== null} // Only enable edit mode when there's an edited ID
+        isEditMode={currentEditedId !== null} 
       />
 
       {/* Upload button */}

@@ -180,7 +180,7 @@ export const filterOptions = {
     { id: "kids", label: "Kids" },
     { id: "accessories", label: "Accessories" },
     { id: "footwear", label: "Footwear" },
-    { id: "others", label: "Others" }, // Include "Others" option for custom category
+    { id: "others", label: "Others" }, 
   ],
   brand: [
     { id: "nike", label: "Nike" },
@@ -189,7 +189,7 @@ export const filterOptions = {
     { id: "levi", label: "Levi's" },
     { id: "zara", label: "Zara" },
     { id: "h&m", label: "H&M" },
-    { id: "others", label: "Others" }, // Include "Others" option for custom category
+    { id: "others", label: "Others" },
   ],
 };
 
