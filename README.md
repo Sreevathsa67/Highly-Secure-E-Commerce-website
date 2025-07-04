@@ -165,13 +165,6 @@ npm run dev
 - 🔁 Product reviews & rating system
 - 🔁 Admin analytics dashboard
 
----
-
-## 👨‍💻 Author
-
-**Name**: [Your Name]  
-**GitHub**: [github.com/yourusername](https://github.com/yourusername)  
-**Email**: your.email@example.com
 
 ---
 
