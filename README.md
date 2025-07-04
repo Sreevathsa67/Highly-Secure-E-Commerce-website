@@ -1,5 +1,7 @@
 # 🛒 Botsch – Secure E-Commerce Checkout (SECOC) System
 
+Won the first place in Hackathon for this problem statement by Botsch
+
 A modern, highly secure, and responsive e-commerce web application with integrated multi-gateway payment processing (Stripe & PayPal). Built for seamless online checkout experiences, robust order handling, and end-to-end data protection.
 
 ---
